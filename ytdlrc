@@ -1,5 +1,4 @@
-#!/usr/bin/env sh
-#
+
 #                             dP         dP dP
 #                             88         88 88
 #                  dP    dP d8888P .d888b88 88 88d888b. .d8888b.
@@ -38,7 +37,7 @@ ytdl_snatch_list="${ytdl_root_dir%/}/snatch.list"
 ytdl_archive_list="${ytdl_root_dir%/}/archive.list"
 
 # What video format(s) to grab
-ytdl_format="bestvideo[ext=4]+bestaudio[ext=4]/best[ext=4]/best"
+ytdl_format="bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
 
 # Output template for downloaded filenames
 ytdl_output_template="%(upload_date)s.%(title)s.%(ext)s"
@@ -52,7 +51,7 @@ ytdl_write_metadata_to_xattrs=false
 ytdl_write_subtitles=true
 
 # Write automatically generated subtitle file (YouTube only)
-ytdl_write_automatic_subtitles=false
+ytdl_write_automatic_subtitles=true
 
 # Download all the available subtitles of the video
 #     * If `false`, only subtitles matching the specified language(s)
@@ -107,7 +106,7 @@ rclone_config="${HOME}/.config/rclone/rclone.conf"
 rclone_command="move"
 
 # Where to store downloaded files on the rclone remote
-rclone_destination="remote:petra"
+rclone_destination="petra:petra/record"
 
 # Rclone flags
 #     * Add any additional rclone flags here, e.g.: "--syslog --bwlimit 5M"
@@ -215,7 +214,7 @@ download_all_the_things() {
     --format "$ytdl_format" \
     --ignore-config \
     --ignore-errors \
-    --match-filter "!is_live"
+    --match-filter "!is_live" \
     --no-overwrites \
     --output "${ytdl_download_dir%/}/${video_value}/${ytdl_output_template}" \
     --restrict-filenames \
